@@ -1,0 +1,7 @@
+services:
+  app:
+    build: .
+    env_file: "weather-forecaster.env"
+    ports:
+      - "8088:8088"
+
