@@ -27,7 +27,7 @@ class Weather:
             return {"error": error_msg}
 
 
-    def get_forecasts(grid_x: str, grid_y: str, office: str) -> dict:
+    def get_forecasts(grid_x: str, grid_y: str, office: str, num_hours: str) -> dict:
 
         forecast_url = f"https://api.weather.gov/gridpoints/{office}/{grid_x},{grid_y}/forecast/hourly"
         forecast_headers = {"accept": "application/geo+json"}
@@ -40,11 +40,14 @@ class Weather:
                 periods = forecast_data["properties"]["periods"]
                 forecasts = []
                 for period in periods:
-                    start_time = period["startTime"]
-                    end_time = period["endTime"]
-                    temperature = period["temperature"]
-                    epoch = int(datetime.fromisoformat(start_time).timestamp())
-                    forecasts.append({"epoch": epoch, "temperature": temperature})
+                    number = int(period["number"])
+                    # Limit forecasts to the next number of hours based on 'num_hours'
+                    if number <= num_hours:
+                        start_time = period["startTime"]
+                        end_time = period["endTime"]
+                        temperature = period["temperature"]
+                        epoch = int(datetime.fromisoformat(start_time).timestamp())
+                        forecasts.append({"epoch": epoch, "temperature": temperature})
                 return {"forecasts": forecasts}
             else:
                 error_msg = f"Get forecast request failed, code: {response.status_code}, response: {response.json()}"

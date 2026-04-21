@@ -10,6 +10,7 @@ LOGGING_LEVEL = logging.INFO
 OFFICE = "LSX"
 DB_NAME = "temperatures.db"
 DEFAULT_REQ_FORECAST_PERIOD = "60"
+QUERY_FORECAST_NUM_HOURS = 72
 
 logging.basicConfig(level=LOGGING_LEVEL, format='%(levelname)s: %(message)s')
 
@@ -43,7 +44,7 @@ db = Db(DB_NAME)
 
 # Function used to query forecasts and store results in the database
 def get_and_store_forecasts():
-    forecasts = Weather.get_forecasts(grid_x, grid_y, OFFICE)
+    forecasts = Weather.get_forecasts(grid_x, grid_y, OFFICE, QUERY_FORECAST_NUM_HOURS)
     if "error" in forecasts:
         logging.warning(f"Failed to get forecasts for grid: {grid_x}, {grid_y}, "
                         f"office: {OFFICE}, error: {forecasts['error']}")
@@ -53,7 +54,7 @@ def get_and_store_forecasts():
         logging.debug(f"Successfully Stored forecasts for grid: {grid_x}, {grid_y}")
 
 # Run an initial query to populate database
-#get_and_store_forecasts()
+get_and_store_forecasts()
 
 # Set up scheduler to periodicly query forecasts based on configured request period
 scheduler = BackgroundScheduler()
