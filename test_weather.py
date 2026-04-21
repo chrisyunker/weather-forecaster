@@ -1,3 +1,6 @@
+"""
+Script used for testing the Weather class
+"""
 import logging
 import os
 from app.weather import Weather

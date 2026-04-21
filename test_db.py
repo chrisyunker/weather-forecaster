@@ -1,4 +1,6 @@
-import logging
+"""
+Script used for testing the Db class
+"""import logging
 import os
 from app.db import Db
 

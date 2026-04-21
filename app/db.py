@@ -1,3 +1,6 @@
+"""
+Db class handles persisting the low,high temperature value for each epoch timestamp using sqlite.
+"""
 import sqlite3
 import logging
 

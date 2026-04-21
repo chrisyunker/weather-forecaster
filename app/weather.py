@@ -1,3 +1,7 @@
+"""
+Weather class handles all API requests to api.weather.gov.
+"""
+
 import requests
 from datetime import datetime
 
