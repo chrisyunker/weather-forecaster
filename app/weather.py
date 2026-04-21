@@ -1,9 +1,8 @@
 """
 Weather class handles all API requests to api.weather.gov.
 """
-
-import requests
 from datetime import datetime
+import requests
 
 class Weather:
     def get_grid(latitude: str, longitude: str) -> dict:
@@ -19,9 +18,9 @@ class Weather:
                 grid_x = int(points_data["properties"]["gridX"])
                 grid_y = int(points_data["properties"]["gridY"])
                 return {"grid_x": grid_x, "grid_y": grid_y}
-            else:
-                error_msg = f"Get grid request failed, code: {response.status_code}, response: {response.json()}"
-                return {"error": error_msg}
+            error_msg = (f"Get grid request failed, code: {response.status_code}, "
+                         f"response: {response.json()}")
+            return {"error": error_msg}
         except requests.exceptions.RequestException as e:
             error_msg = f"Get grid request failed, error: {e}"
             return {"error": error_msg}
@@ -44,15 +43,13 @@ class Weather:
                     # Limit forecasts to the next number of hours based on 'num_hours'
                     if number <= num_hours:
                         start_time = period["startTime"]
-                        end_time = period["endTime"]
                         temperature = period["temperature"]
                         epoch = int(datetime.fromisoformat(start_time).timestamp())
                         forecasts.append({"epoch": epoch, "temperature": temperature})
                 return {"forecasts": forecasts}
-            else:
-                error_msg = f"Get forecast request failed, code: {response.status_code}, response: {response.json()}"
-                return {"error": error_msg}
+            error_msg = (f"Get forecast request failed, code: {response.status_code}, "
+                         f"response: {response.json()}")
+            return {"error": error_msg}
         except requests.exceptions.RequestException as e:
             error_msg = f"Get forcast request failed, error: {e}"
             return {"error": error_msg}
-

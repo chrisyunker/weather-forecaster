@@ -9,7 +9,7 @@ class Db:
         self.db_name = db_name
         conn = sqlite3.connect(self.db_name)
         cursor = conn.cursor()
-        cursor.execute('''CREATE TABLE IF NOT EXISTS temperatures 
+        cursor.execute('''CREATE TABLE IF NOT EXISTS temperatures
                        (epoch INTEGER PRIMARY KEY, low INTEGER, high INTEGER)''')
 
     def store_temp(self, epoch: int, temperature: int):
@@ -29,7 +29,8 @@ class Db:
          """, (epoch, temperature, temperature))
         conn.commit()
         if res.rowcount > 0:
-            logging.info(f"Inserted new low(/high) temp, epoch: {epoch}, temperature: {temperature}")
+            logging.info(f"Inserted new low(/high) temp, epoch: {epoch}, "
+                         f"temperature: {temperature}")
 
         # Store high temp if higher for epoch
         res = cursor.execute("""
@@ -39,7 +40,8 @@ class Db:
          """, (temperature, epoch, temperature))
         conn.commit()
         if res.rowcount > 0:
-            logging.info(f"Inserted new high temp, epoch: {epoch}, temperature: {temperature}")
+            logging.info(f"Inserted new high temp, epoch: {epoch}, "
+                         f"temperature: {temperature}")
 
     def get_temps(self, epoch: int) -> dict | None:
         conn = sqlite3.connect(self.db_name)
@@ -50,7 +52,5 @@ class Db:
         if res:
             (low, high) = res
             return {"low": low, "high": high}
-        else:
-            logging.debug(f"Failed to find temperature for epoch: {epoch}")
-            return None
-
+        logging.debug(f"Failed to find temperature for epoch: {epoch}")
+        return None
