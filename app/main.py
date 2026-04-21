@@ -13,7 +13,11 @@ DB_NAME = "temperatures.db"
 DEFAULT_REQ_FORECAST_PERIOD = "60"
 QUERY_FORECAST_NUM_HOURS = 72
 
-logging.basicConfig(level=LOGGING_LEVEL, format='%(levelname)s: %(message)s')
+logging.basicConfig(
+    level=LOGGING_LEVEL,
+    format='[%(asctime)s] %(levelname)s: %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S',
+)
 
 # Extract start-up configuration from environmental values
 app_latitude = os.getenv("WEATHER_LATITUDE")

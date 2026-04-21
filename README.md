@@ -1,6 +1,6 @@
 # Weather Forecaster
 
-The application queries, processes, and hosts weather forecasting data based on the requirements listed in the assigned coding challange.
+The application queries, processes, and hosts weather forecasting data based on the requirements listed in the assigned coding challenge.
 
 
 ## Build and Run
@@ -31,6 +31,8 @@ Stop image:
 docker compose down
 ```
 
+Note if you have a local port conflict, update the port mappings to a free port in `compose.yaml`
+
 
 ## Configuration
 
@@ -45,7 +47,7 @@ For configuration, there is an included `weather-forecaster.env` file with defau
 
 ## API
 
-Get the low and high temperatures for a geographic location for a specific UTC datetime (restricted to hourly values)
+Get the low and high forecasted temperatures for a geographic location for a specific UTC datetime (restricted to hourly values)
 
 `GET /v1/forecast`
 
@@ -72,6 +74,25 @@ curl "http://127.0.0.1:8088/v1/forecast?lat=38.654596&lon=-90.301272&date=2026-0
 ```
 Example Response
 ```
-{'low': 60, 'high': 79}
+{'low': 72, 'high': 79}
 ```
+
+
+## Notes
+
+### Assumptions
+
+- Application location (latitude, longitude) and query interval are configured at startup and are fixed for the lifetime of the application
+- Forecast data does not persist between application restarts
+
+
+### Coding ToDos
+
+Notes for things that I didn't have time for:
+
+- Integrate test scripts into an unit test framework and expand testing
+- Add retry logic to web queries
+- Better organize repo files (e.g. create separate folder for docker stuff)
+
+
 
